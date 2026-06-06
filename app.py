@@ -143,8 +143,17 @@ def load_data_cached(path: str) -> pd.DataFrame:
 
 
 @st.cache_resource(show_spinner=False)
-def load_model_cached(path: str) -> dict[str, Any]:
-    return load_package(path)
+def load_model_cached() -> dict[str, Any] | None:
+    model_candidates = [
+        Path("ecopredict_model_package.joblib"),
+        Path("outputs/models/ecopredict_model_package.joblib"),
+    ]
+
+    for model_path in model_candidates:
+        if model_path.exists():
+            return load_package(str(model_path))
+
+    return None
 
 
 def render_hero() -> None:
