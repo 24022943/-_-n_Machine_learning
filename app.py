@@ -34,7 +34,25 @@ from carbon_utils import (
 )
 
 DATA_PATH = Path("carbon_catalogue.csv")
-MODEL_PATH = Path("outputs/models/ecopredict_model_package.joblib")
+from pathlib import Path
+import joblib
+import streamlit as st
+
+MODEL_CANDIDATES = [
+    Path("ecopredict_model_package.joblib"),
+    Path("outputs/models/ecopredict_model_package.joblib"),
+]
+
+MODEL_PATH = next((p for p in MODEL_CANDIDATES if p.exists()), None)
+
+if MODEL_PATH is None:
+    st.error(
+        "Không tìm thấy file ecopredict_model_package.joblib. "
+        "Hãy upload file model này lên GitHub cùng cấp với app.py."
+    )
+    st.stop()
+
+package = joblib.load(MODEL_PATH)
 PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True}
 
 st.set_page_config(
