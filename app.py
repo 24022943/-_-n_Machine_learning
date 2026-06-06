@@ -153,6 +153,8 @@ def load_model_cached() -> dict[str, Any] | None:
         if model_path.exists():
             return load_package(str(model_path))
 
+    st.error("Không tìm thấy model. Các file hiện có trong thư mục app:")
+    st.write([p.name for p in Path(".").iterdir()])
     return None
 
 
@@ -481,10 +483,9 @@ def guide_page() -> None:
     """, unsafe_allow_html=True)
 
 
-def bootstrap() -> tuple[pd.DataFrame | None, dict[str, Any] | None]:
-    if not DATA_PATH.exists():
-        st.error("Không tìm thấy carbon_catalogue.csv. Hãy đặt file CSV cùng thư mục với app.py.")
-        return None, None
+def bootstrap() -> tuple[pd.DataFrame, dict[str, Any] | None]:
+    data = load_data_cached(str(DATA_PATH))
+    return data, load_model_cached()
     data = load_data_cached(str(DATA_PATH))
     if not MODEL_PATH.exists():
         st.warning("Chưa có model package. Hãy chạy `python train_advanced_models.py` trước, hoặc bấm nút bên dưới để huấn luyện ngay.")
