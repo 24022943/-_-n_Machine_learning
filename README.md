@@ -1,4 +1,4 @@
-# EcoPredict Carbon – Final Python Files
+# EcoPredict Carbon 
 
 Đề tài: **Ứng dụng học máy trong xây dựng hệ thống dự báo phát thải carbon của sản phẩm**  
 Dataset: **The Carbon Catalogue – Product Level Data** (`carbon_catalogue.csv`)
